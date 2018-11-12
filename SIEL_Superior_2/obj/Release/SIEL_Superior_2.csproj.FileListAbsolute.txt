@@ -1,0 +1,16 @@
+c:\users\nicolas\documents\visual studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\bin\Release\SIEL_Superior_2.exe.config
+c:\users\nicolas\documents\visual studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\bin\Release\SIEL_Superior_2.exe
+c:\users\nicolas\documents\visual studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\bin\Release\SIEL_Superior_2.pdb
+c:\users\nicolas\documents\visual studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\obj\Release\SIEL_Superior_2.csprojResolveAssemblyReference.cache
+c:\users\nicolas\documents\visual studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\obj\Release\SIEL_Superior_2.Form1.resources
+c:\users\nicolas\documents\visual studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\obj\Release\SIEL_Superior_2.Properties.Resources.resources
+c:\users\nicolas\documents\visual studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\obj\Release\SIEL_Superior_2.csproj.GenerateResource.Cache
+c:\users\nicolas\documents\visual studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\obj\Release\SIEL_Superior_2.exe
+c:\users\nicolas\documents\visual studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\obj\Release\SIEL_Superior_2.pdb
+C:\Users\Nicolas\Documents\Visual Studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\bin\Release\Accord.dll.config
+C:\Users\Nicolas\Documents\Visual Studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\bin\Release\Accord.dll
+C:\Users\Nicolas\Documents\Visual Studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\bin\Release\Accord.Math.Core.dll
+C:\Users\Nicolas\Documents\Visual Studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\bin\Release\Accord.Math.dll
+C:\Users\Nicolas\Documents\Visual Studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\bin\Release\Accord.xml
+C:\Users\Nicolas\Documents\Visual Studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\bin\Release\Accord.Math.xml
+C:\Users\Nicolas\Documents\Visual Studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\bin\Release\Accord.Math.Core.xml
