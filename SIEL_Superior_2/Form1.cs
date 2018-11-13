@@ -130,13 +130,79 @@ namespace SIEL_Superior_2
 
         private void btnJacobi_Click(object sender, EventArgs e)
         {
-            JacobiForm jacobForm = new JacobiForm();
-            jacobForm.Show();
-
+    
 
 
 
         }
+
+        private void btnGS_Click(object sender, EventArgs e)
+        {
+            double[,] coef = obtenerCoeficientesYTerminosIndependientes();
+            double[] solucion = cargarVectorInicial(); // En la primer iteración hace de vector inicial
+            int cantidadColumnas = cantidadDeColumnas();
+            int ultimaColumna = cantidadColumnas;
+            double acumulador = 0;
+            int cantidadDecimales = Convert.ToInt32(txtbxcantdecimales.Text);
+            double precision = Convert.ToDouble(txtbxprecision.Text);
+            double[] solucionAnt = new double[cantidadDeColumnas()]; 
+            double[] vectorResta = new double[cantidadDeColumnas()];
+            double normaInf = 0;
+            
+            // Verificamos que el vector inicial oincide con el orden del SEL ingresado
+            verificacionVectorInicial(solucion);
+
+            mostrarEncabezado("Gauss Seidel", precision, obtenerOrden()); 
+
+            while(true)
+            {
+                for (int fila = 1; fila < cantidadColumnas; fila++)
+                {
+                    for (int columna = 1; columna < ultimaColumna; columna++)
+                    {
+                        if (fila != columna) // Para excluir el término de la DP
+                            acumulador = acumulador + coef[fila, columna] * solucion[columna];
+                    } // fin for columnas
+
+                    //Cuando termino de barrer todas las columnas, resto el valor acumulador al t.i. de la fila
+                    solucion[fila] = coef[fila, ultimaColumna] - acumulador;
+
+                    // Finalmente, divido el resultado de sol[fila] por el coeficiente de la variable
+                    solucion[fila] = solucion[fila] / coef[fila, fila];
+
+                    // Redondeamos la solución (redondeo simétrico) con los decimales pedidos
+                    solucion = redondearVector(solucion, cantidadDecimales);
+
+                    // Reinicio el acumulador 
+                    acumulador = 0;
+
+                } // fin for filas
+
+                /*** Acá se termina la iteración actual ***/
+
+                // 1. Calculo la resta entre el vector solucion actual y el anterior
+               vectorResta = restaEntreVectores(solucion, solucionAnt);
+
+                // 2. Calculo su norma infinito vectorial
+               normaInf = normaInfinitoVectorial(vectorResta);
+
+               // 3. Muestro por pantalla el vector solución actual (recordar que sol[0] no lo usamos)
+               mostrarVector(solucion, normaInf);
+
+               /* 4. Me guardo el vector solucion actual en una variable auxiliar para poder restarlo 
+                * con el vector de la siguiente iteración*/
+               Array.Copy(solucion, 0, solucionAnt, 0, solucion.Length);
+
+                // 5. Comparo si es menor que la precisión para ver si sigo iterando o no
+                if (normaInf < precision)
+                {
+                    break; // Dejo de iterar
+                }
+
+            } // fin while(true)   
+            //Console.WriteLine("La solución del sistema es: " + Math.Round(solucion[1], cantidadDecimales) + " y " + Math.Round(solucion[2], cantidadDecimales));
+
+        } // FIN btnGS_Click
 
         /*
          * MÉTODOS AUXILIARES  
@@ -164,6 +230,14 @@ namespace SIEL_Superior_2
                 StringSplitOptions.None);
 
             return ecuaciones.Length; 
+        }
+
+        private int cantidadDeColumnas()
+        {
+            /* El orden de un sistema de nxn es n, tiene n filas, pero tiene n+1 columnas, ya que tenemos 
+             * que considerar la columna de términos independientes. 
+            */ 
+            return obtenerOrden() + 1; 
         }
 
         private double[,] obtenerCoeficientesYTerminosIndependientes()
@@ -256,41 +330,88 @@ namespace SIEL_Superior_2
             txtbxEcuaciones.Text = txtInicEcu1 + Environment.NewLine + txtInicEcu2 + txtInicEcu3 + txtInicEcu4 + txtInicEcu5 + Environment.NewLine + txtInicEcu6;
         }
 
-        private void btnGS_Click(object sender, EventArgs e)
+        private double[] cargarVectorInicial()
         {
-
-            double[,] coef = obtenerCoeficientesYTerminosIndependientes();
-            double[] sol = { 0, 0, 0 }; // En la primer iteración hace de vector inicial
-            int orden = obtenerOrden() + 1; //3
-            int ultimaColumna = orden;
-            double acumulador = 0;
-
-            int flag = 3;
-            while (flag > 0)
+            string vectorInicialTexto = txtbxvinicial.Text;
+            string[] arrayVectorInicial = vectorInicialTexto.Split(';');
+            int cantidadComponentes = arrayVectorInicial.Length;
+            double[] vectorInicial = new double[cantidadComponentes + 1]; // + 1 del 0 en la 1º componente
+            vectorInicial[0] = 0; // Ponemos un 0 en la posición 0 (para iniciar en el índice 1) 
+            for(int nroComponente = 1; nroComponente <= cantidadComponentes; nroComponente++)
             {
-                for (int fila = 1; fila < orden; fila++)
-                {
-                    for (int columna = 1; columna < ultimaColumna; columna++)
-                    {
-                        if (fila != columna) // Para excluir el término de la DP
-                            acumulador = acumulador + coef[fila, columna] * sol[columna];
-                    } // fin for columnas
+                vectorInicial[nroComponente] = Convert.ToDouble(arrayVectorInicial[nroComponente - 1]);
+            }
 
-                    //Cuando termino de barrer todas las columnas, resto el valor acumulador al t.i. de la fila
-                    sol[fila] = coef[fila, ultimaColumna] - acumulador;
+            return vectorInicial;
+        }
 
-                    // Finalmente, divido el resultado de sol[fila] por el coeficiente de la variable
-                    sol[fila] = sol[fila] / coef[fila, fila];
-                    
-                    // Reinicio el acumulador 
-                    acumulador = 0; 
-                } // fin for filas
-                flag--;
+        private void verificacionVectorInicial(double[] vectorInicial)
+        {
+            // Chequeamos que el vector inicial tenga el mismo tamaño que el orden del SEL ingresado
+            int cantidadComponentesVInicial = obtenerOrden() + 1; // + 1 por el 0 de ajuste 
+            if (vectorInicial.Length != cantidadComponentesVInicial)
+            {
+                DialogResult msgebox = MessageBox.Show("El tamaño del vector inicial no concuerda con el orden del SEL ingresado", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
-            } // fin while   
-            Console.WriteLine("La solución del sistema es: " + Math.Round(sol[1], 4) + " y " + Math.Round(sol[2], 4)); 
+        }
 
-        } // FIN btnGS_Click
+        private double[] restaEntreVectores(double[] vectorA, double[] vectorB)
+        {
+            return vectorA.Zip(vectorB, (vA, vB) => vA - vB).ToArray<double>();
+        }
+
+        private double normaInfinitoVectorial(double[] unVector)
+        {
+            // Primero obtener el módulo de cada elemento del vector
+            double[] resultado = unVector.Select(e => Math.Abs(e)).ToArray<double>();
+
+            // Retornamos el máximo elemento del vector 
+            return resultado.Max();
+        }
+
+        private void mostrarEncabezado(String metodoElegido, double precision, int cantidadVariables)
+        {
+            string nl = System.Environment.NewLine;
+            string espacio = "             ";
+            string s1 = "SIEL - TP 2C 2018 - Método elegido: " + metodoElegido + nl;
+            string s2 = "Criterio de paro: ||X_n+1 - X_n||_inf < " + precision + nl;
+            txtbxoutput.Text = s1 + s2;
+            string variables = "";
+            for (int i = 1; i <= cantidadVariables; i++)
+            {
+                variables = variables + "x_" + i + espacio;
+            }
+            variables = variables + espacio + "Error" + nl;
+            txtbxoutput.AppendText(variables);
+
+        }
+
+        private void mostrarVector(double[] unVector, double error)
+        {
+            int longitud = unVector.Length;
+            string espacio = "  ";
+            string ln = System.Environment.NewLine;
+            for(int i=1; i < longitud; i++) // No usamos la posición 0 de los vectores
+            {   
+                txtbxoutput.AppendText(unVector[i].ToString());
+                txtbxoutput.AppendText(espacio);
+            }
+            
+            // En la última columna mostramos el error 
+            txtbxoutput.AppendText(error.ToString());
+
+            // Insertamos un salto de línea al terminar de mostrar el vector
+            txtbxoutput.AppendText(ln); 
+        }
+
+        private double[] redondearVector(double[] unVector, int cantidadDecimales)
+        {   
+            // Redondeamos cada componente o elemento del vector
+            return unVector.Select(e => Math.Round(e, cantidadDecimales)).ToArray<double>();
+        }
+
 
     } // FIN public partial class Form 1
 

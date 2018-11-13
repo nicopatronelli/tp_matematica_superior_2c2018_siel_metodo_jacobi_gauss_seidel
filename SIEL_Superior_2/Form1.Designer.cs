@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.txtbxEcuaciones = new System.Windows.Forms.TextBox();
             this.btnNormaInf = new System.Windows.Forms.Button();
             this.lblNorma = new System.Windows.Forms.Label();
@@ -37,14 +39,19 @@
             this.btnMDD = new System.Windows.Forms.Button();
             this.btnJacobi = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtbxoutput = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtbxcantdecimales = new System.Windows.Forms.TextBox();
+            this.txtbxprecision = new System.Windows.Forms.TextBox();
+            this.txtbxvinicial = new System.Windows.Forms.TextBox();
             this.btnGS = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tipvinicial = new System.Windows.Forms.ToolTip(this.components);
+            this.tipPrecision = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -54,7 +61,7 @@
             this.txtbxEcuaciones.Location = new System.Drawing.Point(28, 12);
             this.txtbxEcuaciones.Multiline = true;
             this.txtbxEcuaciones.Name = "txtbxEcuaciones";
-            this.txtbxEcuaciones.Size = new System.Drawing.Size(520, 130);
+            this.txtbxEcuaciones.Size = new System.Drawing.Size(569, 130);
             this.txtbxEcuaciones.TabIndex = 0;
             // 
             // btnNormaInf
@@ -71,10 +78,10 @@
             // lblNorma
             // 
             this.lblNorma.AutoSize = true;
-            this.lblNorma.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNorma.Location = new System.Drawing.Point(436, 17);
+            this.lblNorma.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNorma.Location = new System.Drawing.Point(439, 19);
             this.lblNorma.Name = "lblNorma";
-            this.lblNorma.Size = new System.Drawing.Size(66, 24);
+            this.lblNorma.Size = new System.Drawing.Size(57, 20);
             this.lblNorma.TabIndex = 2;
             this.lblNorma.Text = "label1";
             // 
@@ -112,7 +119,7 @@
             // 
             // btnMDD
             // 
-            this.btnMDD.Location = new System.Drawing.Point(28, 205);
+            this.btnMDD.Location = new System.Drawing.Point(37, 204);
             this.btnMDD.Name = "btnMDD";
             this.btnMDD.Size = new System.Drawing.Size(242, 23);
             this.btnMDD.TabIndex = 7;
@@ -132,20 +139,51 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtbxoutput);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.textBox3);
-            this.groupBox1.Controls.Add(this.textBox2);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.txtbxcantdecimales);
+            this.groupBox1.Controls.Add(this.txtbxprecision);
+            this.groupBox1.Controls.Add(this.txtbxvinicial);
             this.groupBox1.Controls.Add(this.btnGS);
             this.groupBox1.Controls.Add(this.btnJacobi);
             this.groupBox1.Location = new System.Drawing.Point(32, 245);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(493, 120);
+            this.groupBox1.Size = new System.Drawing.Size(598, 208);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Métodos Numéricos";
+            // 
+            // txtbxoutput
+            // 
+            this.txtbxoutput.Location = new System.Drawing.Point(10, 105);
+            this.txtbxoutput.Multiline = true;
+            this.txtbxoutput.Name = "txtbxoutput";
+            this.txtbxoutput.ReadOnly = true;
+            this.txtbxoutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtbxoutput.Size = new System.Drawing.Size(564, 97);
+            this.txtbxoutput.TabIndex = 19;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(117, 42);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(10, 13);
+            this.label6.TabIndex = 18;
+            this.label6.Text = ")";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(7, 42);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(10, 13);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "(";
             // 
             // label4
             // 
@@ -164,6 +202,8 @@
             this.label3.Size = new System.Drawing.Size(122, 13);
             this.label3.TabIndex = 15;
             this.label3.Text = "Cota de error (precisión):";
+            this.tipPrecision.SetToolTip(this.label3, "CUIDADO: La coma decimal es \",\" y NO el punto \".\"\r\nPor ejemplo, una precisión vál" +
+        "ida es 0,01 y NO 0.01");
             // 
             // label2
             // 
@@ -173,27 +213,28 @@
             this.label2.Size = new System.Drawing.Size(70, 13);
             this.label2.TabIndex = 14;
             this.label2.Text = "Vector inicial:";
+            this.tipvinicial.SetToolTip(this.label2, resources.GetString("label2.ToolTip"));
             // 
-            // textBox3
+            // txtbxcantdecimales
             // 
-            this.textBox3.Location = new System.Drawing.Point(328, 39);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
-            this.textBox3.TabIndex = 13;
+            this.txtbxcantdecimales.Location = new System.Drawing.Point(328, 39);
+            this.txtbxcantdecimales.Name = "txtbxcantdecimales";
+            this.txtbxcantdecimales.Size = new System.Drawing.Size(100, 20);
+            this.txtbxcantdecimales.TabIndex = 13;
             // 
-            // textBox2
+            // txtbxprecision
             // 
-            this.textBox2.Location = new System.Drawing.Point(173, 39);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 12;
+            this.txtbxprecision.Location = new System.Drawing.Point(173, 39);
+            this.txtbxprecision.Name = "txtbxprecision";
+            this.txtbxprecision.Size = new System.Drawing.Size(100, 20);
+            this.txtbxprecision.TabIndex = 12;
             // 
-            // textBox1
+            // txtbxvinicial
             // 
-            this.textBox1.Location = new System.Drawing.Point(7, 39);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 11;
+            this.txtbxvinicial.Location = new System.Drawing.Point(17, 39);
+            this.txtbxvinicial.Name = "txtbxvinicial";
+            this.txtbxvinicial.Size = new System.Drawing.Size(100, 20);
+            this.txtbxvinicial.TabIndex = 11;
             // 
             // btnGS
             // 
@@ -214,16 +255,24 @@
             this.groupBox2.Controls.Add(this.btnNormaInf);
             this.groupBox2.Location = new System.Drawing.Point(32, 148);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(516, 50);
+            this.groupBox2.Size = new System.Drawing.Size(565, 50);
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Cálculo de normas:";
+            // 
+            // tipvinicial
+            // 
+            this.tipvinicial.AutomaticDelay = 1000000000;
+            this.tipvinicial.AutoPopDelay = 50000000;
+            this.tipvinicial.InitialDelay = 500;
+            this.tipvinicial.ReshowDelay = 100;
+            this.tipvinicial.ShowAlways = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(609, 392);
+            this.ClientSize = new System.Drawing.Size(642, 465);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnMDD);
@@ -251,14 +300,19 @@
         private System.Windows.Forms.Button btnMDD;
         private System.Windows.Forms.Button btnJacobi;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtbxvinicial;
         private System.Windows.Forms.Button btnGS;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtbxcantdecimales;
+        private System.Windows.Forms.TextBox txtbxprecision;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ToolTip tipvinicial;
+        private System.Windows.Forms.TextBox txtbxoutput;
+        private System.Windows.Forms.ToolTip tipPrecision;
     }
 }
 
