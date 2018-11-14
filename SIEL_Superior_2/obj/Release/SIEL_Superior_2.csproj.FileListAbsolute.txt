@@ -14,4 +14,7 @@ C:\Users\Nicolas\Documents\Visual Studio 2012\Projects\WindowsFormsApplication1\
 C:\Users\Nicolas\Documents\Visual Studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\bin\Release\Accord.xml
 C:\Users\Nicolas\Documents\Visual Studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\bin\Release\Accord.Math.xml
 C:\Users\Nicolas\Documents\Visual Studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\bin\Release\Accord.Math.Core.xml
-C:\Users\Nicolas\Documents\Visual Studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\obj\Release\SIEL_Superior_2.JacobiForm.resources
+C:\Users\Nicolas\Documents\Visual Studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\bin\Release\SIEL_Superior_2.exe.manifest
+C:\Users\Nicolas\Documents\Visual Studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\bin\Release\SIEL_Superior_2.application
+C:\Users\Nicolas\Documents\Visual Studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\obj\Release\SIEL_Superior_2.exe.manifest
+C:\Users\Nicolas\Documents\Visual Studio 2012\Projects\WindowsFormsApplication1\SIEL_Superior_2\obj\Release\SIEL_Superior_2.application

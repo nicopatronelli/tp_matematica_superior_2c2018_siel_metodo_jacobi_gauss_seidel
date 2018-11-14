@@ -69,7 +69,7 @@ namespace SIEL_Superior_2
         private void btnNorma2_Click(object sender, EventArgs e)
         {   
             double[,] coeficientesSolos = obtenerCoeficientesSolos();
-            double norma2 = Accord.Math.Norm.Norm2(coeficientesSolos);
+            double norma2 = Math.Round(Accord.Math.Norm.Norm2(coeficientesSolos), 8);
             lblNorma.Text = norma2.ToString();
         }
 
@@ -130,11 +130,76 @@ namespace SIEL_Superior_2
 
         private void btnJacobi_Click(object sender, EventArgs e)
         {
-    
+            double[,] coef = obtenerCoeficientesYTerminosIndependientes();
+            double[] solucion = cargarVectorInicial(); // En la primer iteración hace de vector inicial
+            int cantidadColumnas = cantidadDeColumnas();
+            int ultimaColumna = cantidadColumnas;
+            double acumulador = 0;
+            int cantidadDecimales = Convert.ToInt32(txtbxcantdecimales.Text);
+            double precision = Convert.ToDouble(txtbxprecision.Text);
+            double[] solucionAnt = new double[cantidadDeColumnas()];
+            double[] vectorResta = new double[cantidadDeColumnas()];
+            double normaInf = 0;
 
+            // Verificamos que el vector inicial oincide con el orden del SEL ingresado
+            if (verificacionVectorInicial(solucion) == true)
+            { // Inicio verificación vector inicial
 
+                mostrarEncabezado("Jacobi", precision, obtenerOrden());
 
-        }
+                while (true)
+                {   
+                    // En fila 1 se calcula x_1, en fila 2 se calcula x_2, etc... 
+                    for (int fila = 1; fila < cantidadColumnas; fila++) 
+                    {
+                        for (int columna = 1; columna < ultimaColumna; columna++)
+                        {
+                            if (fila != columna) // Para excluir el término de la DP
+                                acumulador = acumulador + coef[fila, columna] * solucionAnt[columna];
+                        } // fin for columnas
+
+                        //Cuando termino de barrer todas las columnas, resto el valor acumulador al t.i. de la fila
+                        solucion[fila] = coef[fila, ultimaColumna] - acumulador;
+
+                        // Finalmente, divido el resultado de sol[fila] por el coeficiente de la variable
+                        solucion[fila] = solucion[fila] / coef[fila, fila];
+
+                        // Redondeamos la solución (redondeo simétrico) con los decimales pedidos
+                        solucion = redondearVector(solucion, cantidadDecimales);
+
+                        // Reinicio el acumulador 
+                        acumulador = 0;
+
+                    } // fin for filas
+
+                    /*** Acá se termina la iteración actual ***/
+
+                    // 1. Calculo la resta entre el vector solucion actual y el anterior
+                    vectorResta = restaEntreVectores(solucion, solucionAnt);
+
+                    // 2. Calculo su norma infinito vectorial
+                    normaInf = Math.Round(normaInfinitoVectorial(vectorResta), cantidadDecimales);
+
+                    // 3. Muestro por pantalla el vector solución actual (recordar que sol[0] no lo usamos)
+                    mostrarVector(solucion, normaInf);
+
+                    // 4. Actualizo el vector solucionAnt con los datos del vector solucion actual para la siguiente iteración
+                    Array.Copy(solucion, 0, solucionAnt, 0, solucion.Length);
+
+                    // 5. Comparo si es menor que la precisión para ver si sigo iterando o no
+                    if (normaInf < precision)
+                    {
+                        break; // Dejo de iterar
+                    }
+
+                } // fin while(true)   
+            }
+            else
+            {
+                // Fin verificación vector inicial
+            }
+
+        } // FIN btnJacobi_Click 
 
         private void btnGS_Click(object sender, EventArgs e)
         {
@@ -150,59 +215,63 @@ namespace SIEL_Superior_2
             double normaInf = 0;
             
             // Verificamos que el vector inicial oincide con el orden del SEL ingresado
-            verificacionVectorInicial(solucion);
+            if (verificacionVectorInicial(solucion) == true)
+            { // Inicio verificación vector inicial
 
-            mostrarEncabezado("Gauss Seidel", precision, obtenerOrden()); 
+                mostrarEncabezado("Gauss Seidel", precision, obtenerOrden());
 
-            while(true)
-            {
-                for (int fila = 1; fila < cantidadColumnas; fila++)
+                while (true)
                 {
-                    for (int columna = 1; columna < ultimaColumna; columna++)
+                    for (int fila = 1; fila < cantidadColumnas; fila++)
                     {
-                        if (fila != columna) // Para excluir el término de la DP
-                            acumulador = acumulador + coef[fila, columna] * solucion[columna];
-                    } // fin for columnas
+                        for (int columna = 1; columna < ultimaColumna; columna++)
+                        {
+                            if (fila != columna) // Para excluir el término de la DP
+                                acumulador = acumulador + coef[fila, columna] * solucion[columna];
+                        } // fin for columnas
 
-                    //Cuando termino de barrer todas las columnas, resto el valor acumulador al t.i. de la fila
-                    solucion[fila] = coef[fila, ultimaColumna] - acumulador;
+                        //Cuando termino de barrer todas las columnas, resto el valor acumulador al t.i. de la fila
+                        solucion[fila] = coef[fila, ultimaColumna] - acumulador;
 
-                    // Finalmente, divido el resultado de sol[fila] por el coeficiente de la variable
-                    solucion[fila] = solucion[fila] / coef[fila, fila];
+                        // Finalmente, divido el resultado de sol[fila] por el coeficiente de la variable
+                        solucion[fila] = solucion[fila] / coef[fila, fila];
 
-                    // Redondeamos la solución (redondeo simétrico) con los decimales pedidos
-                    solucion = redondearVector(solucion, cantidadDecimales);
+                        // Redondeamos la solución (redondeo simétrico) con los decimales pedidos
+                        solucion = redondearVector(solucion, cantidadDecimales);
 
-                    // Reinicio el acumulador 
-                    acumulador = 0;
+                        // Reinicio el acumulador 
+                        acumulador = 0;
 
-                } // fin for filas
+                    } // fin for filas
 
-                /*** Acá se termina la iteración actual ***/
+                    /*** Acá se termina la iteración actual ***/
 
-                // 1. Calculo la resta entre el vector solucion actual y el anterior
-               vectorResta = restaEntreVectores(solucion, solucionAnt);
+                    // 1. Calculo la resta entre el vector solucion actual y el anterior
+                    vectorResta = restaEntreVectores(solucion, solucionAnt);
 
-                // 2. Calculo su norma infinito vectorial
-               normaInf = normaInfinitoVectorial(vectorResta);
+                    // 2. Calculo su norma infinito vectorial
+                    normaInf = Math.Round(normaInfinitoVectorial(vectorResta), cantidadDecimales);
 
-               // 3. Muestro por pantalla el vector solución actual (recordar que sol[0] no lo usamos)
-               mostrarVector(solucion, normaInf);
+                    // 3. Muestro por pantalla el vector solución actual (recordar que sol[0] no lo usamos)
+                    mostrarVector(solucion, normaInf);
 
-               /* 4. Me guardo el vector solucion actual en una variable auxiliar para poder restarlo 
-                * con el vector de la siguiente iteración*/
-               Array.Copy(solucion, 0, solucionAnt, 0, solucion.Length);
+                    /* 4. Me guardo el vector solucion actual en una variable auxiliar para poder restarlo 
+                     * con el vector de la siguiente iteración*/
+                    Array.Copy(solucion, 0, solucionAnt, 0, solucion.Length);
 
-                // 5. Comparo si es menor que la precisión para ver si sigo iterando o no
-                if (normaInf < precision)
-                {
-                    break; // Dejo de iterar
-                }
+                    // 5. Comparo si es menor que la precisión para ver si sigo iterando o no
+                    if (normaInf < precision)
+                    {
+                        break; // Dejo de iterar
+                    }
 
-            } // fin while(true)   
-            //Console.WriteLine("La solución del sistema es: " + Math.Round(solucion[1], cantidadDecimales) + " y " + Math.Round(solucion[2], cantidadDecimales));
-
-        } // FIN btnGS_Click
+                } // fin while(true)   
+            }
+            else
+            {
+                // Fin verificación vector inicial
+            }
+        } // FIN btnGS_Click    
 
         /*
          * MÉTODOS AUXILIARES  
@@ -345,7 +414,7 @@ namespace SIEL_Superior_2
             return vectorInicial;
         }
 
-        private void verificacionVectorInicial(double[] vectorInicial)
+        private bool verificacionVectorInicial(double[] vectorInicial)
         {
             // Chequeamos que el vector inicial tenga el mismo tamaño que el orden del SEL ingresado
             int cantidadComponentesVInicial = obtenerOrden() + 1; // + 1 por el 0 de ajuste 
@@ -353,8 +422,9 @@ namespace SIEL_Superior_2
             {
                 DialogResult msgebox = MessageBox.Show("El tamaño del vector inicial no concuerda con el orden del SEL ingresado", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
-
+            return true;
         }
 
         private double[] restaEntreVectores(double[] vectorA, double[] vectorB)
@@ -383,7 +453,7 @@ namespace SIEL_Superior_2
             {
                 variables = variables + "x_" + i + espacio;
             }
-            variables = variables + espacio + "Error" + nl;
+            variables = variables + "Error" + nl;
             txtbxoutput.AppendText(variables);
 
         }
@@ -391,7 +461,7 @@ namespace SIEL_Superior_2
         private void mostrarVector(double[] unVector, double error)
         {
             int longitud = unVector.Length;
-            string espacio = "  ";
+            string espacio = "   ";
             string ln = System.Environment.NewLine;
             for(int i=1; i < longitud; i++) // No usamos la posición 0 de los vectores
             {   
@@ -410,6 +480,12 @@ namespace SIEL_Superior_2
         {   
             // Redondeamos cada componente o elemento del vector
             return unVector.Select(e => Math.Round(e, cantidadDecimales)).ToArray<double>();
+        }
+
+        private void btninfo_Click(object sender, EventArgs e)
+        {
+            DialogResult msgbox = MessageBox.Show("SEL - TP 2C 2018 Matemática Superior - Alumnos: Patronelli, Nicolás; Rodrigues, Tomas; Asorey, Christian", "Acerca de SIEL",
+            MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
 

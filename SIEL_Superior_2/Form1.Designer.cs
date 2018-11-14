@@ -52,6 +52,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tipvinicial = new System.Windows.Forms.ToolTip(this.components);
             this.tipPrecision = new System.Windows.Forms.ToolTip(this.components);
+            this.btninfo = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -61,7 +62,7 @@
             this.txtbxEcuaciones.Location = new System.Drawing.Point(28, 12);
             this.txtbxEcuaciones.Multiline = true;
             this.txtbxEcuaciones.Name = "txtbxEcuaciones";
-            this.txtbxEcuaciones.Size = new System.Drawing.Size(569, 130);
+            this.txtbxEcuaciones.Size = new System.Drawing.Size(602, 130);
             this.txtbxEcuaciones.TabIndex = 0;
             // 
             // btnNormaInf
@@ -79,7 +80,7 @@
             // 
             this.lblNorma.AutoSize = true;
             this.lblNorma.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNorma.Location = new System.Drawing.Point(439, 19);
+            this.lblNorma.Location = new System.Drawing.Point(428, 19);
             this.lblNorma.Name = "lblNorma";
             this.lblNorma.Size = new System.Drawing.Size(57, 20);
             this.lblNorma.TabIndex = 2;
@@ -255,7 +256,7 @@
             this.groupBox2.Controls.Add(this.btnNormaInf);
             this.groupBox2.Location = new System.Drawing.Point(32, 148);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(565, 50);
+            this.groupBox2.Size = new System.Drawing.Size(598, 50);
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Cálculo de normas:";
@@ -268,11 +269,22 @@
             this.tipvinicial.ReshowDelay = 100;
             this.tipvinicial.ShowAlways = true;
             // 
+            // btninfo
+            // 
+            this.btninfo.Location = new System.Drawing.Point(522, 459);
+            this.btninfo.Name = "btninfo";
+            this.btninfo.Size = new System.Drawing.Size(108, 23);
+            this.btninfo.TabIndex = 12;
+            this.btninfo.Text = "Acerca de SEIL";
+            this.btninfo.UseVisualStyleBackColor = true;
+            this.btninfo.Click += new System.EventHandler(this.btninfo_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(642, 465);
+            this.ClientSize = new System.Drawing.Size(668, 493);
+            this.Controls.Add(this.btninfo);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnMDD);
@@ -313,6 +325,7 @@
         private System.Windows.Forms.ToolTip tipvinicial;
         private System.Windows.Forms.TextBox txtbxoutput;
         private System.Windows.Forms.ToolTip tipPrecision;
+        private System.Windows.Forms.Button btninfo;
     }
 }
 
